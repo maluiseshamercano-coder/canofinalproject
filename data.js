@@ -1,0 +1,147 @@
+const books = [
+    {
+        id: 1,
+        title: "Hell University",
+        author: "KnightInBlack",
+        genre: "Young adult fiction",
+        rating: "184M",
+        reads: "63.5M",
+        price: "1300",
+        quantity: 15,
+        isAvailable: true,
+        image: "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1639145663i/59788664.jpg"
+    },
+    {
+        id: 2,
+        title: "Chasing Hell",
+        author: "KnightInBlack",
+        genre: "Young Adult fiction",
+        rating: "2.24M",
+        reads: "63.5M",
+        price: "400",
+        quantity: 20,
+        isAvailable: true,
+        image: "https://img.wattpad.com/cover/82124033-256-k593918.jpg"
+    },
+    {
+        id: 3,
+        title: "Chasing the Sun",
+        author: "inksteady",
+        genre: "Romance",
+        rating: "2.03M",
+        reads: "67.5M",
+        price: "400",
+        quantity: 12,
+        isAvailable: true,
+        image: "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1686015622i/56818509.jpg"
+    },
+    {
+        id: 4,
+        title: "Taming the Waves",
+        author: "Inksteady",
+        genre: "Romance",
+        rating: "1.84M",
+        reads: "62.9M",
+        price: "500",
+        quantity: 18,
+        isAvailable: false,
+        image: "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1686015752i/56818492.jpg"
+    },
+    {
+        id: 5,
+        title: "Our Yesterday Escape",
+        author: "4reuminct",
+        genre: "Romance",
+        rating: "1.67M",
+        reads: "51M",
+        price: "650",
+        quantity: 10,
+        isAvailable: true,
+        image: "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1637463430i/59663006.jpg"
+    },
+    {
+        id: 6,
+        title: "Dosage of Serotonin",
+        author: "inksteady",
+        genre: "Romance",
+        rating: "1.36M",
+        reads: "42.9M",
+        price: "1500",
+        quantity: 14,
+        isAvailable: false,
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-swXs9EadhvJIaiiCh3tmyD2a64BYH0aT-g&s=1"
+    },
+    {
+        id: 7,
+        title: "Chaining Lockets",
+        author: "heartlessnostalgia",
+        genre: "Romance",
+        rating: "318K",
+        reads: "14.3M",
+        price: "450",
+        quantity: 22,
+        isAvailable: false,
+        image: "https://img.wattpad.com/cover/234923432-256-k533562.jpg"
+    },
+    {
+        id: 8,
+        title: "I Love You, ARA",
+        author: "JFstories",
+        genre: "Romance, Horror, Paranormal",
+        rating: "774K",
+        reads: "31.3M",
+        price: "1200",
+        quantity: 8,
+        isAvailable: true,
+        image: "https://d.wattpad.com/story_parts/917848580/images/16202bf51f27a035978964706404.jpg"
+    },
+    {
+        id: 9,
+        title: "Stay Awake, Agatha",
+        author: "Serialsleeper",
+        genre: "Romance, Drama",
+        rating: "1.3M",
+        reads: "37.2M",
+        price: "700",
+        quantity: 16,
+        isAvailable: true,
+        image: "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1629565124i/58823073.jpg"
+    },
+    {
+        id: 10,
+        title: "Taste of Sky",
+        author: "VentreCanard",
+        genre: "Science fiction and Romance",
+        rating: "2.1M",
+        reads: "53M",
+        price: "1050",
+        quantity: 9,
+        isAvailable: true,
+        image: "https://img.wattpad.com/cover/105252750-256-k818171.jpg"
+    },
+    {
+        id: 11,
+        title: "Embracing his thoughts",
+        author: "R3dAuxx",
+        genre: "Romance, Drama, Dark Romance",
+        rating: "67.6K",
+        reads: "7.75M",
+        price: "599",
+        quantity: 11,
+        isAvailable: true,
+        image: "https://img.wattpad.com/cover/368913274-288-k577994.jpg"
+    },
+    {
+        id: 12,
+        title: "You Let Me Drown",
+        author: "lumierezi",
+        genre: "Romance",
+        rating: "6.38K",
+        reads: "620K",
+        price: "600",
+        quantity: 13,
+        isAvailable: false,
+
+        image: "https://img.wattpad.com/1fc96ab6b74b96f89d3554780a5a2efc401fb586/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f776174747061642d6d656469612d736572766963652f53746f7279496d6167652f5275486d69354465515a32576d513d3d2d3839323436363730322e313633363833663565383038326466663736303630353237333630352e706e67"
+    }
+];

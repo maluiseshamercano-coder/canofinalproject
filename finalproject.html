@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wattpad Book Store</title>
+    <link rel="stylesheet" href="finalproject.css">
+</head>
+<body>
+    <header>
+        <h1>Wattpad books store</h1>
+        <p>Discover amazing and bestsellers stories</p>
+    </header>
+    
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search books or authors...">
+        <button onclick="searchBooks()">Search</button>
+    </div>
+
+     <div class="container">
+        <div class="store-layout">
+            <div class="books-grid" id="booksGrid">
+                <!-- Books will be generated here -->
+            </div>
+            <aside class="cart-summary">
+                <h2>Cart Summary</h2>
+                <p id="cartCount">Items in cart: 0</p>
+                <p id="cartTotal">Total price: ₱0</p>
+                <div class="cart-items" id="cartItems">
+                    <p class="empty-cart">Your cart is empty.</p>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Wattpad Books Store. All rights reserved.</p>
+    </footer>
+
+    <script src="data.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const booksData = typeof books !== 'undefined' ? books : [];
+            const cart = [];
+
+            function parsePrice(price) {
+                const numeric = typeof price === 'number' ? price : Number(String(price).replace(/[^0-9.]/g, ''));
+                return Number.isNaN(numeric) ? 0 : numeric;
+            }
+
+            function formatPrice(value) {
+                return '₱' + value.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+            }
+
+            function getCartItem(bookId) {
+                return cart.find(item => item.book.id === bookId);
+            }
+
+            function updateCartSummary() {
+                const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+                const total = cart.reduce((sum, item) => sum + parsePrice(item.book.price) * item.quantity, 0);
+                document.getElementById('cartCount').textContent = `Items in cart: ${cartCount}`;
+                document.getElementById('cartTotal').textContent = `Total price: ${formatPrice(total)}`;
+
+                const cartItems = document.getElementById('cartItems');
+                if (cartCount === 0) {
+                    cartItems.innerHTML = '<p class="empty-cart">Your cart is empty.</p>';
+                } else {
+                    cartItems.innerHTML = cart.map(item => `
+                        <div class="cart-item">
+                            <div class="cart-item-info">
+                                <span>${item.book.title}</span>
+                                <div class="cart-item-controls">
+                                    <button onclick="decreaseQty(${item.book.id})">-</button>
+                                    <span>${item.quantity}</span>
+                                    <button onclick="increaseQty(${item.book.id})">+</button>
+                                </div>
+                            </div>
+                            <strong>${formatPrice(parsePrice(item.book.price) * item.quantity)}</strong>
+                        </div>
+                    `).join('');
+                }
+            }
+
+            function renderBooks(booksToRender = booksData) {
+                const booksGrid = document.getElementById('booksGrid');
+                booksGrid.innerHTML = '';
+
+                booksToRender.forEach(book => {
+                    const bookCard = document.createElement('div');
+                    bookCard.className = 'book-card';
+                    const available = book.isAvailable && book.quantity > 0;
+                    bookCard.innerHTML = `
+                        <div class="book-cover">
+                            <img src="${book.image}" alt="${book.title}" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="book-info">
+                            <h3 class="book-title">${book.title}</h3>
+                            <p class="book-author">by ${book.author}</p>
+                            <span class="book-genre">${book.genre}</span>
+                            <p class="book-price">${formatPrice(parsePrice(book.price))}</p>
+                            <p class="book-quantity">In stock: ${book.quantity}</p>
+                            <p class="book-availability ${available ? 'available' : 'unavailable'}">${available ? 'Available' : 'Not available'}</p>
+                            <div class="book-rating">
+                                <span class="stars">★ ${book.rating}</span>
+                                <span class="rating-count">reads ${book.reads}</span>
+                            </div>
+                            <button class="add-btn" ${available ? '' : 'disabled'} onclick="addToCart(${book.id})">${available ? 'Add to Cart' : 'Unavailable'}</button>
+                        </div>
+                    `;
+                    booksGrid.appendChild(bookCard);
+                });
+            }
+
+            window.addToCart = function(bookId) {
+                const book = booksData.find(b => b.id === bookId);
+                if (!book) return;
+
+                const available = book.isAvailable && book.quantity > 0;
+                if (!available) {
+                    alert('Sorry, this book is currently unavailable.');
+                    return;
+                }
+
+                const cartItem = getCartItem(bookId);
+                if (cartItem) {
+                    if (cartItem.quantity < book.quantity) {
+                        cartItem.quantity += 1;
+                    } else {
+                        alert('No more stock available for this book.');
+                        return;
+                    }
+                } else {
+                    cart.push({ book, quantity: 1 });
+                }
+
+                updateCartSummary();
+                alert(`"${book.title}" added to cart!`);
+            };
+
+            window.increaseQty = function(bookId) {
+                const cartItem = getCartItem(bookId);
+                if (!cartItem) return;
+                if (cartItem.quantity < cartItem.book.quantity) {
+                    cartItem.quantity += 1;
+                    updateCartSummary();
+                } else {
+                    alert('No more stock available for this book.');
+                }
+            };
+
+            window.decreaseQty = function(bookId) {
+                const cartItem = getCartItem(bookId);
+                if (!cartItem) return;
+                cartItem.quantity -= 1;
+                if (cartItem.quantity <= 0) {
+                    const index = cart.indexOf(cartItem);
+                    if (index !== -1) cart.splice(index, 1);
+                }
+                updateCartSummary();
+            };
+
+            window.searchBooks = function() {
+                const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                const filteredBooks = booksData.filter(book =>
+                    book.title.toLowerCase().includes(searchTerm) ||
+                    book.author.toLowerCase().includes(searchTerm) ||
+                    book.genre.toLowerCase().includes(searchTerm)
+                );
+
+                renderBooks(searchTerm.trim().length ? filteredBooks : booksData);
+            };
+
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        window.searchBooks();
+                    }
+                });
+            }
+
+            renderBooks();
+            updateCartSummary();
+        });
+    </script>
+</body>
+</html>
